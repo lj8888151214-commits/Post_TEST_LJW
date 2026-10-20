@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 조회</title>
+</head>
+<body>
+<h2>게시글 상세 조회</h2>
+<hr/>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 600px; border-collapse: collapse;">
+    <tr>
+        <th bgcolor="#f2f2f2" width="25%">글번호</th>
+        <td th:text="${post.postNo}"></td>
+    </tr>
+    <tr>
+        <th bgcolor="#f2f2f2">제목</th>
+        <td th:text="${post.title}"></td>
+    </tr>
+    <tr>
+        <th bgcolor="#f2f2f2">작성자</th>
+        <td th:text="${post.writer}"></td>
+    </tr>
+    <tr>
+        <th bgcolor="#f2f2f2">조회수</th>
+        <td th:text="${post.viewCount}"></td>
+    </tr>
+    <tr>
+        <th bgcolor="#f2f2f2">등록일자</th>
+        <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+    <tr>
+        <th bgcolor="#f2f2f2">내용</th>
+        <td style="height: 180px; vertical-align: top;">
+            <pre th:text="${post.content}" style="font-family: inherit; margin: 0; white-space: pre-wrap;"></pre>
+        </td>
+    </tr>
+</table>
+
+<br/>
+<div>
+    <a th:href="@{/Post/update(PostNo=${post.postNo})}"><button type="button">수정</button></a>
+    <a th:href="@{/Post/list}"><button type="button">목록</button></a>
+</div>
+</body>
+</html>

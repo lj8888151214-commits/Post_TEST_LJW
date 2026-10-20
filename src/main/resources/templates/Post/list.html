@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 목록</title>
+</head>
+<body>
+<h2>게시글 목록</h2>
+
+<div>
+    <a th:href="@{/Post/insert}"><button type="button">게시글 쓰기</button></a>
+</div>
+<br/>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; text-align: center;">
+    <thead>
+    <tr bgcolor="#f2f2f2">
+        <th width="10%">번호</th>
+        <th width="45%">제목</th>
+        <th width="15%">작성자</th>
+        <th width="10%">조회수</th>
+        <th width="20%">등록일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(postList)}">
+        <td colspan="5">등록된 게시글이 없습니다.</td>
+    </tr>
+    <tr th:each="post : ${postList}">
+        <td th:text="${post.postNo}">1</td>
+        <td style="text-align: left; padding-left: 10px;">
+            <a th:href="@{/Post/read(PostNo=${post.postNo})}" th:text="${post.title}">게시글 제목</a>
+        </td>
+        <td th:text="${post.writer}">작성자</td>
+        <td th:text="${post.viewCount}">0</td>
+        <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">2026-10-20</td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- [문항5 추가] 페이징 네비게이션 UI -->
+<div style="margin-top: 20px; text-align: center;" th:if="${page.totalCount > 0}">
+    <!-- 이전 블록 이동 -->
+    <a th:if="${page.prev}" th:href="@{/Post/list(pageNum=${page.startPage - 1})}">[이전]</a>
+
+    <!-- 페이지 번호 나열 -->
+    <th:block th:each="p : ${#numbers.sequence(page.startPage, page.endPage)}">
+        <b th:if="${p == page.pageNum}" th:text="'[' + ${p} + ']'" style="color: red; margin: 0 4px;"></b>
+        <a th:if="${p != page.pageNum}" th:href="@{/Post/list(pageNum=${p})}" th:text="'[' + ${p} + ']'" style="margin: 0 4px; text-decoration: none; color: black;"></a>
+    </th:block>
+
+    <!-- 다음 블록 이동 -->
+    <a th:if="${page.next}" th:href="@{/Post/list(pageNum=${page.endPage + 1})}">[다음]</a>
+</div>
+</body>
+</html>

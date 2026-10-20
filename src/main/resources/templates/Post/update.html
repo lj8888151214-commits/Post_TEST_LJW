@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+</head>
+<body>
+<h2>게시글 수정</h2>
+<hr/>
+
+<!-- 게시글 수정 폼 -->
+<form id="updateForm" th:action="@{/Post/update}" method="post">
+    <input type="hidden" name="postNo" th:value="${post.postNo}"/>
+
+    <table border="1" cellpadding="8" cellspacing="0" style="width: 600px; border-collapse: collapse;">
+        <tr>
+            <th bgcolor="#f2f2f2" width="25%">글번호</th>
+            <td><span th:text="${post.postNo}"></span></td>
+        </tr>
+        <tr>
+            <th bgcolor="#f2f2f2">제목</th>
+            <td><input type="text" name="title" th:value="${post.title}" required style="width: 95%;"/></td>
+        </tr>
+        <tr>
+            <th bgcolor="#f2f2f2">작성자</th>
+            <td><input type="text" name="writer" th:value="${post.writer}" readonly style="width: 95%; background-color: #eee;"/></td>
+        </tr>
+        <tr>
+            <th bgcolor="#f2f2f2">내용</th>
+            <td>
+                <textarea name="content" rows="10" required style="width: 95%; resize: vertical;" th:text="${post.content}"></textarea>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <div>
+        <button type="submit">수정</button>
+        <button type="button" onclick="deleteConfirm()">삭제</button>
+        <a th:href="@{/Post/list}"><button type="button">목록</button></a>
+    </div>
+</form>
+
+<!-- 삭제 요청 전송용 폼 (POST /Post/delete) -->
+<form id="deleteForm" th:action="@{/Post/delete}" method="post" style="display: none;">
+    <input type="hidden" name="PostNo" th:value="${post.postNo}"/>
+</form>
+
+<script>
+    function deleteConfirm() {
+        if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+            document.getElementById("deleteForm").submit();
+        }
+    }
+</script>
+</body>
+</html>
